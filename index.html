@@ -1,0 +1,128 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>SCD</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    input[type="submit"] {
+      background-color:#2596be;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #2596be
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #75c4e0;
+      color: white;
+    }
+    .total {
+      font-weight: bold;
+    }
+
+    .logo {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 100px; 
+        height: auto; 
+        }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="despesas.jpg" alt="Logo" class="logo">
+    <h1>Controlo de Despesas</h1>
+    <form id="expenseForm">
+      <div class="form-group">
+        <label for="expenseName">Nome da Despesa:</label>
+        <input type="text" id="expenseName" required>
+      </div>
+      <div class="form-group">
+        <label for="expenseAmount">Valor da Despesa:</label>
+        <input type="number" id="expenseAmount" min="0" step="0.01" required>
+      </div>
+      <input type="submit" value="Adicionar Despesa">
+    </form>
+    <table id="expenseTable">
+      <thead>
+        <tr>
+          <th>Nome da Despesa</th>
+          <th>Valor</th>
+        </tr>
+      </thead>
+      <tbody id="expenseTableBody">
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Total</th>
+          <th id="totalExpense" class="total">0.00€</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <script>
+    const expenseForm = document.getElementById('expenseForm');
+    const expenseTableBody = document.getElementById('expenseTableBody');
+    const totalExpense = document.getElementById('totalExpense');
+    expenseForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const expenseName = document.getElementById('expenseName').value;
+      const expenseAmount = parseFloat(document.getElementById('expenseAmount').value).toFixed(2);
+      const row = document.createElement('tr');
+      const nameCell = document.createElement('td');
+      const amountCell = document.createElement('td');
+      nameCell.textContent = expenseName;
+      amountCell.textContent = expenseAmount + '€';
+      row.appendChild(nameCell);
+      row.appendChild(amountCell);
+      expenseTableBody.appendChild(row);
+      updateTotalExpense(expenseAmount);
+    
+});
+
+function updateTotalExpense(amount) {
+const currentTotal = parseFloat(totalExpense.textContent);
+const newTotal = (currentTotal + parseFloat(amount)).toFixed(2);
+totalExpense.textContent = newTotal + '€';
+}
+</script>
+
+</body>
+</html>
